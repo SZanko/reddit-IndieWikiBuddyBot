@@ -1,0 +1,30 @@
+{
+  "$schema": "https://developers.reddit.com/schema/config-file.v1.json",
+  "name": "indiebuddybot",
+  "version": "0.0.1",
+  "server": {
+    "entry": "src/main/server/index.ts"
+  },
+  "capabilities": {
+    "triggers": {
+      "events": ["CommentCreate"]
+    },
+    "userActions": false
+  },
+  "permissions": {
+    "media": true,
+    "payments": false,
+    "realtime": false,
+    "redis": true,
+    "reddit": {
+      "enable": true,
+      "asUser": ["SUBMIT_COMMENT"]
+    }
+  },
+  "triggers": {
+    "onPostCreate": "/internal/triggers/post-create",
+    "onCommentSubmit": "/internal/triggers/comment-submit",
+    "onModAction": "/internal/triggers/mod-action"
+  }
+}
+
