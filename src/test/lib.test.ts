@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { searchForLink, generateRedirectUrl } from '../lib.js';
+import { searchForLink, generateRedirectUrl, formatComments } from '../lib.js';
 
 const ctx = {};
 
@@ -102,3 +102,33 @@ describe('generateRedirectUrl', () => {
         expect(generateRedirectUrl(match)).toBe('https://en.uesp.net/wiki/Skyrim:Dragon');
     });
 });
+
+
+describe('formatComments', () => {
+    async function matchAll(text: string) {
+        return searchForLink(text, 'post_1', 'user', ctx);
+    }
+
+    it('contains the header and bot footer', async () => {
+        const matches = await matchAll('https://minecraft.fandom.com/wiki/Creeper');
+        const result = await formatComments(matches);
+        expect(result).toContain('This post links to fandom wikis that have independent alternatives:');
+        expect(result).toContain('Indie Wiki Buddy');
+    });
+
+    it('includes the origin name and linked destination for a single match', async () => {
+        const matches = await matchAll('https://minecraft.fandom.com/wiki/Creeper');
+        const result = await formatComments(matches);
+        expect(result).toContain('Minecraft Fandom Wiki');
+        expect(result).toContain('[Minecraft Wiki](https://minecraft.wiki/w/Creeper)');
+    });
+
+    it('includes a line per match for multiple URLs', async () => {
+        const matches = await matchAll(
+            'https://minecraft.fandom.com/wiki/Creeper and https://1000xresist.fandom.com/wiki/Iris'
+        );
+        const result = await formatComments(matches);
+        expect(result).toContain('Minecraft Fandom Wiki');
+        expect(result).toContain('1000xRESIST Fandom Wiki');
+    });
+})

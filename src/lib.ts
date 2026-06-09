@@ -73,3 +73,23 @@ export async function searchForLink(
 
     return matches;
 }
+
+export async function formatComments(
+    sites: SiteMatch[],
+)  {
+
+    const lines = sites.map((match) => {
+        const dest = generateRedirectUrl(match);
+        return `* ${match.origin.origin} -> [${match.site.destination}](${dest})`;
+    });
+
+    const text = [
+        'This post links to fandom wikis that have independent alternatives:',
+        '',
+        ...lines,
+        '',
+        '*I am a bot. | [Indie Wiki Buddy](https://getindie.wiki/)*',
+    ].join('\n');
+
+    return text
+}

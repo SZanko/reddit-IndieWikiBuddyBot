@@ -1,5 +1,5 @@
-import { Devvit, SettingScope } from '@devvit/public-api';
-import {searchForLink} from "./lib.js";
+import { Devvit } from '@devvit/public-api';
+import { searchForLink, generateRedirectUrl, formatComments } from "./lib.js";
 
 Devvit.configure({
     redditAPI: true,
@@ -16,15 +16,23 @@ Devvit.addMenuItem({
     onPress: async (event, context) => {
         const post = await context.reddit.getPostById(event.targetId);
 
-        const linksInComment = await searchForLink(
+        const matches = await searchForLink(
             post.body ?? '',
             event.targetId,
-            post.authorName,
+            post.authorName ?? '',
             context
-        )
+        );
+
+        if (matches.length === 0) {
+            context.ui.showToast('No fandom wiki links found.');
+            return;
+        }
+
+        const text =  await formatComments(matches);
 
 
+        await context.reddit.submitComment({ id: event.targetId, text });
 
-        context.ui.showToast('Scan complete - check comment');
+        context.ui.showToast(`Posted redirect comment (${matches.length} link${matches.length > 1 ? 's' : ''}).`);
     }
 })
