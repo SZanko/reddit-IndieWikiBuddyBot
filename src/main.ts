@@ -1,4 +1,4 @@
-import { Devvit } from "@devvit/public-api";
+import { Devvit, type TriggerContext } from "@devvit/public-api";
 import { searchForLink, formatComments } from "./lib.js";
 
 Devvit.configure({
@@ -9,84 +9,60 @@ Devvit.configure({
 
 export default Devvit;
 
+async function replyWithMatches(
+  body: string,
+  id: string,
+  authorName: string,
+  context: TriggerContext,
+): Promise<boolean> {
+  const matches = searchForLink(body, id, authorName, context);
+  if (matches.length === 0) return false;
+  const text = formatComments(matches);
+  await context.reddit.submitComment({ id, text });
+  return true;
+}
+
 Devvit.addTrigger({
-  event: 'PostCreate',
+  event: "PostCreate",
   onEvent: async (event, context) => {
-    if(!event.post?.id) return;
-
+    if (!event.post?.id) return;
     const post = await context.reddit.getPostById(event.post.id);
-
-    const matches = searchForLink(
+    await replyWithMatches(
       post.body ?? "",
       event.post.id,
       post.authorName ?? "",
       context,
     );
-
-    if (matches.length === 0) {
-      return;
-    }
-
-    const text = formatComments(matches);
-
-    await context.reddit.submitComment({ id: event.post.id, text });
-
-  }
-})
+  },
+});
 
 Devvit.addTrigger({
   event: "CommentCreate",
   onEvent: async (event, context) => {
-    if (!event.post?.id) return;
-    if (!event.comment?.id) return;
-
+    if (!event.post?.id || !event.comment?.id) return;
     const comment = await context.reddit.getCommentById(event.comment.id);
-
-    const matches = searchForLink(
+    await replyWithMatches(
       comment.body ?? "",
       event.comment.id,
       comment.authorName ?? "",
       context,
     );
-
-    if (matches.length === 0) {
-      return;
-    }
-
-    const text = formatComments(matches);
-
-    await context.reddit.submitComment({ id: event.comment.id, text });
-  }
-})
-
-
+  },
+});
 
 Devvit.addTrigger({
   event: "CommentUpdate",
   onEvent: async (event, context) => {
-    if (!event.post?.id) return;
-    if (!event.comment?.id) return;
-
-    const comment= await context.reddit.getCommentById(event.comment.id);
-
-    const matches = searchForLink(
+    if (!event.post?.id || !event.comment?.id) return;
+    const comment = await context.reddit.getCommentById(event.comment.id);
+    await replyWithMatches(
       comment.body ?? "",
       event.comment.id,
       comment.authorName ?? "",
       context,
     );
-
-    if (matches.length === 0) {
-      return;
-    }
-
-    const text = formatComments(matches);
-
-    await context.reddit.submitComment({ id: event.comment.id, text });
   },
 });
-
-
 
 Devvit.addMenuItem({
   label: "Indie Wiki Buddy: Scan Post",
@@ -94,7 +70,6 @@ Devvit.addMenuItem({
   forUserType: "moderator",
   onPress: async (event, context) => {
     const post = await context.reddit.getPostById(event.targetId);
-
     const matches = searchForLink(
       post.body ?? "",
       event.targetId,
@@ -108,9 +83,7 @@ Devvit.addMenuItem({
     }
 
     const text = formatComments(matches);
-
     await context.reddit.submitComment({ id: event.targetId, text });
-
     context.ui.showToast(
       `Posted redirect comment (${matches.length} link${matches.length > 1 ? "s" : ""}).`,
     );

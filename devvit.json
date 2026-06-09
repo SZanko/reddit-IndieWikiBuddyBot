@@ -13,7 +13,6 @@
     "reddit": true,
     "http": {
       "domains": [
-        "api.github.com"
       ]
     }
   },

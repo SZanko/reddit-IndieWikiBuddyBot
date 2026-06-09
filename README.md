@@ -1,23 +1,13 @@
-# Getting started with indiebuddybot
+# Indie Wiki Buddy Bot
 
-Your project has been created using a Devvit template.
+Indie Wiki Buddy does the same as the [browser extension](https://github.com/KevinPayravi/indie-wiki-buddy) It post a comment with a link to a community wiki if the post/comment contains a link to a fandom wiki
 
-## Next up
+## Features
 
-Next up is uploading and developing your app using playtest.
+Currenty there is only the English Version supported of the wikis
+For the supported wikis visit [https://getindie.wiki/](https://getindie.wiki/)
 
-In the project directory, you can run:
+## Installation
 
-### `npm run deploy`
-
-Upload the app to the App Directory. Uploaded apps are only visible to you (the app owner) and can only be installed to a small test subreddit with less than 200 subscribers.
-
-### `npm run dev`
-
-Installs your app to your test subreddit and starts a playtest session where a new version is installed whenever you save changes to your app code, and logs are continuously streamed.
-
-## Learn more
-
-You can learn more in the [documentation](https://developers.reddit.com/docs/).
-
-You can manage your apps in the [developer portal](https://developers.reddit.com/my/apps).
+1. Install the app from the [Devvit App Directory](https://developers.reddit.com/apps/github-guard)
+2. Go to `reddit.com/r/YOURSUBREDDIT/about/apps`
