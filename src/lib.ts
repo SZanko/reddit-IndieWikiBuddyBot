@@ -36,6 +36,21 @@ function findMatchingSite(url: string): { site: Site; origin: Origin } | null {
     return null;
 }
 
+export function generateRedirectUrl(match: SiteMatch): string {
+    const parsed = new URL(match.url);
+    const slug = parsed.pathname.slice(match.origin.origin_content_path.length);
+    const prefix =
+        ('destination_content_prefix' in match.origin ? match.origin.destination_content_prefix : undefined) ??
+        ('destination_content_prefix' in match.site ? match.site.destination_content_prefix : undefined) ??
+        '';
+
+    const dest = new URL(`https://${match.site.destination_base_url}`);
+    dest.pathname = `${match.site.destination_content_path}${prefix}${slug}`;
+    dest.search = parsed.search;
+    dest.hash = parsed.hash;
+    return dest.toString();
+}
+
 export async function searchForLink(
     text: string,
     id: string,

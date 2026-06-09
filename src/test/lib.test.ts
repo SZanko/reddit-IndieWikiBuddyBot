@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { searchForLink } from '../lib.js';
+import { searchForLink, generateRedirectUrl } from '../lib.js';
 
 const ctx = {};
 
@@ -77,5 +77,28 @@ describe('searchForLink', () => {
         );
         expect(result).toHaveLength(1);
         expect(result[0].site.id).toBe('en-minecraft');
+    });
+});
+
+describe('generateRedirectUrl', () => {
+    async function matchFirst(url: string) {
+        const results = await searchForLink(url, 'post_1', 'user', ctx);
+        return results[0];
+    }
+
+    it('redirects a fandom wiki article to the indie wiki', async () => {
+        const match = await matchFirst('https://minecraft.fandom.com/wiki/Creeper');
+        expect(generateRedirectUrl(match)).toBe('https://minecraft.wiki/w/Creeper');
+    });
+
+    it('preserves query string and hash', async () => {
+        const match = await matchFirst('https://minecraft.fandom.com/wiki/Creeper?action=edit#History');
+        expect(generateRedirectUrl(match)).toBe('https://minecraft.wiki/w/Creeper?action=edit#History');
+    });
+
+    it('applies origin-level destination_content_prefix', async () => {
+        // skyrim.fandom.com/wiki/Dragon -> en.uesp.net/wiki/Skyrim:Dragon
+        const match = await matchFirst('https://skyrim.fandom.com/wiki/Dragon');
+        expect(generateRedirectUrl(match)).toBe('https://en.uesp.net/wiki/Skyrim:Dragon');
     });
 });
