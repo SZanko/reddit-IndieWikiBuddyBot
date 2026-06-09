@@ -9,10 +9,8 @@ jobs:
   test-bot:
     name: test-bot
     runs-on: ubuntu-latest
-    env:
-      HUSKY: 0
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
-      - run: bun install
+      - run: bun install --ignore-scripts
       - run: bun run test
