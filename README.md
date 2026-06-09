@@ -9,5 +9,5 @@ For the supported wikis visit [https://getindie.wiki/](https://getindie.wiki/)
 
 ## Installation
 
-1. Install the app from the [Devvit App Directory](https://developers.reddit.com/apps/github-guard)
+1. Install the app from the [Devvit App Directory](https://developers.reddit.com/apps/indiewikibuddy)
 2. Go to `reddit.com/r/YOURSUBREDDIT/about/apps`
