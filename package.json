@@ -10,17 +10,29 @@
     "login": "devvit login",
     "launch": "devvit publish",
     "type-check": "tsc --build",
-    "test": "vitest run"
+    "test": "vitest run",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@devvit/public-api": "0.13.2"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^24.5.2",
     "devvit": "0.13.2",
     "dotenv-cli": "8.0.0",
-    "typescript": "5.8.3",
+    "eslint": "^10.4.1",
+    "eslint-config-prettier": "^10.1.8",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.7",
+    "prettier": "3.8.4",
     "shadow-cljs": "3.2.1",
-    "vitest": "^4.0.18",
-    "@types/node": "^24.5.2"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.61.0",
+    "vitest": "^4.0.18"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
   }
 }

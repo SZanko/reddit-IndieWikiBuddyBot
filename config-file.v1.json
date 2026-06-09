@@ -306,7 +306,11 @@
     }
   },
   "required": ["name"],
-  "anyOf": [{ "required": ["post"] }, { "required": ["server"] }, { "required": ["blocks"] }],
+  "anyOf": [
+    { "required": ["post"] },
+    { "required": ["server"] },
+    { "required": ["blocks"] }
+  ],
   "dependentRequired": { "triggers": ["server"] },
   "properties": {
     "name": {
@@ -349,7 +353,11 @@
               "items": {
                 "type": "string",
                 "description": "Allowed domain.",
-                "examples": ["example.com", "wikipedia.org", "query.wikidata.org"]
+                "examples": [
+                  "example.com",
+                  "wikipedia.org",
+                  "query.wikidata.org"
+                ]
               },
               "uniqueItems": true,
               "default": []
@@ -397,7 +405,11 @@
                   "type": "array",
                   "description": "APIs to execute from the user account instead of the app account (`name`). These are not currently in use, please set scope to `\"user\"` instead to submit posts or comments as the user.",
                   "items": {
-                    "enum": ["SUBMIT_POST", "SUBMIT_COMMENT", "SUBSCRIBE_TO_SUBREDDIT"]
+                    "enum": [
+                      "SUBMIT_POST",
+                      "SUBMIT_COMMENT",
+                      "SUBSCRIBE_TO_SUBREDDIT"
+                    ]
                   },
                   "uniqueItems": true,
                   "default": []

@@ -1,0 +1,9 @@
+# Ignore artifacts:
+build
+coverage
+.clj-kondo
+.shadow-cljs
+.direnv
+shadow-cljs.edn
+.lsp
+assets
