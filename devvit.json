@@ -1,14 +1,23 @@
 {
   "$schema": "https://developers.reddit.com/schema/config-file.v1.json",
-  "name": "indiebuddybot",
+  "name": "indiewikibuddy",
   "blocks": {
     "entry": "src/main.ts",
-    "triggers": ["onPostCreate", "onCommentCreate", "onCommentUpdate"]
+    "triggers": [
+      "onPostCreate",
+      "onCommentCreate",
+      "onCommentUpdate"
+    ]
   },
   "permissions": {
     "reddit": true,
     "http": {
-      "domains": ["api.github.com"]
+      "domains": [
+        "api.github.com"
+      ]
     }
+  },
+  "dev": {
+    "subreddit": "indiebuddybot_dev"
   }
 }

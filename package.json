@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "indiebuddybot",
+  "name": "indiewikibuddy",
   "version": "0.0.0",
   "license": "BSD-3-Clause",
   "type": "module",
@@ -14,12 +14,12 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@devvit/public-api": "0.13.2"
+    "@devvit/public-api": "0.13.3"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@types/node": "^24.5.2",
-    "devvit": "0.13.2",
+    "@types/node": "^25.9.2",
+    "devvit": "0.13.3",
     "dotenv-cli": "8.0.0",
     "eslint": "^10.4.1",
     "eslint-config-prettier": "^10.1.8",
